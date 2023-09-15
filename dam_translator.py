@@ -1,16 +1,18 @@
 import tkinter as tk
 import base64
-from random import randint
+import random
 
- # 设置charset
-head = ['大','打','答','沓','哒','耷','嗒','妲','靼']
-tail = ['把','爸','八','拔','罢','粑','坝','疤']
-table = []
-for i in range(len(head)):
-    for j in range(len(tail)):
-        table.append(head[i]+tail[j]+' ')
-charset = table
-
+def set_charset(seeds):
+    # 设置charset
+    head = ['大','打','答','沓','哒','耷','嗒','妲','靼']
+    tail = ['把','爸','八','拔','罢','粑','坝','疤']
+    table = []
+    for i in range(len(head)):
+        for j in range(len(tail)):
+            table.append(head[i]+tail[j]+' ')
+    random.seed(seeds)
+    random.shuffle(table)
+    return(table)
 
 def encode_base64(input_str):
    # 将字符串转换为utf-8编码
@@ -59,7 +61,7 @@ def human_2_daba():
     # 将输入的人类语转换为base64格式
     encoded_str = encode_base64(input_str)
     # 将base64格式转换为字符集
-    encoded_str_bc = base64_to_charset(encoded_str, charset)
+    encoded_str_bc = base64_to_charset(encoded_str, set_charset(1))
     # 打印转换后的大坝语
     delete_output()
     output_box.insert(tk.END, encoded_str_bc + "\n")
@@ -69,7 +71,7 @@ def daba_2_human():
     try:
         input_str_bc = entry.get().strip()+' '
         # 将输入大坝语转换为字符集
-        decoded_str_bc = charset_to_base64(input_str_bc, charset)
+        decoded_str_bc = charset_to_base64(input_str_bc, set_charset(1))
         # 将base64格式转换为base64格式
         decoded_str = decode_base64(decoded_str_bc)
         # 将base64格式转换为人类语
@@ -83,7 +85,7 @@ def daba_2_human():
                         '大坝你mua啊别大坝了',
                         '不会说大坝语去说zdjd语去']
         delete_output()
-        output_box.insert(tk.END, excep_output[randint(0,len(excep_output)-1)] + "\n")
+        output_box.insert(tk.END, excep_output[random.randint(0,len(excep_output)-1)] + "\n")
 
 
 def encode_or_decode():
@@ -97,13 +99,10 @@ root = tk.Tk()
 root.geometry("400x300")
 root.title("大坝语翻译器")
 
-# 定义一个函数，用于在控制台中打印用户输入的文本
-def print_text():
- print(entry.get())
-
 # 创建一个输入框
 entry = tk.Entry(root)
 entry.pack()
+entry.focus()
 
 # 创建一个radiobottom组
 var = tk.StringVar()
