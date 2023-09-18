@@ -70,7 +70,7 @@ def main():
         decoded_str_bc = convert_charset_to_base64(daba_lang_input, charset)
         decoded_str = decode_base64(decoded_str_bc)
         print("人类语为：", decoded_str)
-    except Exception:
+    except:
         excep_output = ['输入不规范，大坝两行泪', '你输你大坝啊，别输了', '我大坝你个大坝', '大坝你mua啊别大坝了',
                         '不会说大坝语去说zdjd语去']
         print(excep_output[randint(0, len(excep_output) - 1)])
