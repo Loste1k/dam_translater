@@ -1,7 +1,7 @@
 import base64
 import random
 
-def set_charset(seeds):
+def set_charset(seeds = 1):
     # 设置charset
     head = ['大', '打', '答', '沓', '哒', '耷', '嗒', '妲', '靼']
     tail = ['把', '爸', '八', '拔', '罢', '粑', '坝', '疤']
@@ -59,7 +59,7 @@ def string_to_charset(input_str):
 
 def charset_to_string(input_str_bc):
     try:
-        decoded_str_bc = charset_to_base64(input_str_bc+' ', set_charset(1))
+        decoded_str_bc = charset_to_base64(input_str_bc.strip()+' ', set_charset(1))
         # 将base64格式转换为base64格式
         decoded_str = base64_to_string(decoded_str_bc)
         return decoded_str
