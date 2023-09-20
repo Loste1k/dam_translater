@@ -1,7 +1,14 @@
 import base64
 import random
 
-def set_charset(seeds = 1):
+def set_charset(charset = 'dam'):
+    if charset == "dam": return charset_dam()
+    elif charset == "zdjd": return charset_zdjd()
+    elif charset == "emoji": return charset_emoji()
+    else: pass
+    
+    
+def charset_dam():
     # 设置charset
     head = ['大', '打', '答', '沓', '哒', '耷', '嗒', '妲', '靼']
     tail = ['把', '爸', '八', '拔', '罢', '粑', '坝', '疤']
@@ -9,9 +16,37 @@ def set_charset(seeds = 1):
     for i in range(len(head)):
         for j in range(len(tail)):
             table.append(head[i] + tail[j] + ' ')
-    random.seed(seeds)
+    random.seed(1)
     random.shuffle(table)
-    return (table)
+    return table
+
+
+def charset_zdjd():
+    left = ['>', 'O', '^', 'o']
+    mid = ['.', ',', 'v','_']
+    right = ['<', 'o', '^', 'O']
+    table = []
+    for i in range(len(left)):
+        for j in range(len(mid)):
+            for k in range(len(right)):
+                table.append('(' + left[i] + mid[j] + right[k] + ') ')
+    random.seed(1)
+    random.shuffle(table)
+    return table
+
+
+def charset_emoji():
+    table = [
+    "😀", "😃", "😄", "😁", "😆", "😅", "😂", "🤣",
+    "😊", "😇", "🙂", "🙃", "😉", "😌", "😍", "🥰",
+    "😘", "😗", "😙", "😚", "😋", "😛", "😜", "😝",
+    "🤑", "🤗", "🤓", "😎", "🧐", "😏", "😒", "😞",
+    "😔", "😟", "😕", "🙁", "🥵", "😣", "😖", "😫",
+    "😩", "😢", "😭", "😤", "😠", "😡", "🤬", "🤯",
+    "😳", "🥺", "😨", "😰", "😥", "😓", "🤗", "🙄",
+    "😪", "😴", "😷", "🤒", "🤕", "🤢", "🤮", "🤧",
+    "🥴", "🤤", "🤠", "🥱", "😶", "😐", "😑", "😬"]
+    return table
 
 
 def string_to_base64(input_str):
@@ -41,36 +76,42 @@ def base64_to_charset(input_str, charset):
 def charset_to_base64(input_str, charset):
     base64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="
     output_str = ""
-    for char in range(0, len(input_str), 3):
+    char_len = len(charset[0])
+    for char in range(0, len(input_str), char_len):
         # 获取字符在字符集中的索引
-        index = charset.index(input_str[char] + input_str[char + 1] + input_str[char + 2])
+        index = charset.index(input_str[char:char+char_len])
         # 将索引转换为base64编码
         output_str += base64_chars[index % len(charset)]
     return output_str
 
 
-def string_to_charset(input_str):
+def have_space_at_end(charset_name):
+    return True if set_charset(charset_name)[0][-1] == ' ' else False
+
+
+def string_to_charset(input_str, charset_name):
     # 将输入的人类语转换为base64格式
     encoded_str = string_to_base64(input_str)
     # 将base64格式转换为字符集
-    encoded_str_bc = base64_to_charset(encoded_str, set_charset(1))
+    encoded_str_bc = base64_to_charset(encoded_str, set_charset(charset_name))
     return encoded_str_bc
 
 
-def charset_to_string(input_str_bc):
-    try:
-        decoded_str_bc = charset_to_base64(input_str_bc.strip()+' ', set_charset(1))
-        # 将base64格式转换为base64格式
-        decoded_str = base64_to_string(decoded_str_bc)
-        return decoded_str
-    except:
-        # 如果出现异常，则提供异常信息
-        excep_output = ['输入不规范，大坝两行泪',
-                        '你输你大坝啊，别输了',
-                        '我大坝你个大坝',
-                        '大坝你mua啊别大坝了',
-                        '不会说大坝语去说zdjd语去']
-        return(excep_output[random.randint(0, len(excep_output) - 1)])
+def charset_to_string(input_str_bc, charset_name):
+    # try:
+    space = ' ' if have_space_at_end(charset_name) else ''
+    decoded_str_bc = charset_to_base64(input_str_bc.strip() + space, set_charset(charset_name))
+    # 将base64格式转换为base64格式
+    decoded_str = base64_to_string(decoded_str_bc)
+    return decoded_str
+    # except:
+    #     # 如果出现异常，则提供异常信息
+    #     excep_output = ['输入不规范，大坝两行泪',
+    #                     '你输你大坝啊，别输了',
+    #                     '我大坝你个大坝',
+    #                     '大坝你mua啊别大坝了',
+    #                     '不会说大坝语去说zdjd语去']
+    #     return(excep_output[random.randint(0, len(excep_output) - 1)])
 
 
 # def main():
