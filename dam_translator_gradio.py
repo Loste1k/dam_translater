@@ -23,7 +23,7 @@ def hash_check(str_input, hash_input):
 with gr.Blocks() as daba:
     with gr.Tab("翻译"):
         trans_inp = gr.Textbox(lines=5, label="输入", placeholder="输入要翻译的内容")
-        trans_rad = gr.Radio(["大坝语", "尊嘟假嘟语", "emoji"], label="选择翻译的语言")
+        trans_rad = gr.Radio(["大坝语", "尊嘟假嘟语", "emoji"], label="选择翻译的语言", value="大坝语")
         trans_out_tag = gr.Textbox(lines=1, label="状态")
         trans_out = gr.Textbox(lines=5, label="输出")
         trans_button = gr.Button("TRANSLATE!")
