@@ -42,5 +42,5 @@ with gr.Blocks() as daba:
 
 
 if __name__ == "__main__":
-    daba.launch(server_name="127.0.0.1", server_port=45454)
+    daba.launch(server_name="0.0.0.0", server_port=33333)
 
