@@ -9,7 +9,7 @@ def encode_or_decode(str_input, radio):
         return "参考译文：", out
     except:
         out = dam.string_to_charset(str_input, charset_list[radio])
-        return f"监测到输入内容不是{radio}，已自动翻译为{radio}：", out
+        return f"监测到输入内容不是{radio}或输入有误，已自动翻译为{radio}：", out
     
 
 def hash_check(str_input, hash_input):
@@ -27,6 +27,17 @@ with gr.Blocks() as daba:
         trans_out_tag = gr.Textbox(lines=1, label="状态")
         trans_out = gr.Textbox(lines=5, label="输出")
         trans_button = gr.Button("TRANSLATE!")
+        gr.Markdown(
+            """
+            # 大坝翻译器
+            **!!! 此转换器仅为娱乐用途 !!!**
+            
+            项目源代码 <https://github.com/Loste1k/dam_translater>
+            
+            ## 如何使用
+            在输入处填写文本，随后选择对应翻译语言，如果输入的为对应语言则会翻译成人类语，如果不是则会翻译成对应语言。
+            """
+        )
 
     with gr.Tab("哈希校验"):
         hash_inp = gr.Textbox(lines=2, label="输入文本")
@@ -43,4 +54,5 @@ with gr.Blocks() as daba:
 
 if __name__ == "__main__":
     daba.launch(server_name="0.0.0.0", server_port=33333)
+    # daba.launch(server_name="127.0.0.1", server_port=33333)
 
